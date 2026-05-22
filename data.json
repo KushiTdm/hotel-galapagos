@@ -1,0 +1,175 @@
+{
+  "site_information": {
+    "name": "Galapagos-Hotel",
+    "url": "https://galapagos-hotel.com/",
+    "location": "Puerto Villamil, Isabela, Galápagos Islands, Ecuador",
+    "owners": {
+      "names": ["Esteban Chavez", "Elena Chavez"],
+      "photo": "/images/owner-elena.jpg",
+      "quote": "The closest you'll get to the wild without leaving paradise."
+    },
+    "description": "Three stunning vacation houses designed for comfort and relaxation in Puerto Villamil, Isabela. Each house offers a unique experience with direct beach access or central town location."
+  },
+
+  "images": {
+    "hero": "/images/hero.png",
+    "parallax": "/images/parallax.jpg",
+    "cta": "/images/cta-villa.jpg",
+    "experiences": {
+      "wildlife": "/images/exp-wildlife.jpg",
+      "beach": "/images/exp-beach-villa.jpg"
+    },
+    "interiors": {
+      "villa-dining": "/images/villa-interior-dining.jpg"
+    },
+    "owner": "/images/villas/shared/elena-chavez.jpg"
+  },
+
+  "villas": [
+    {
+      "name": "Yellow Heron House",
+      "slug": "yellow-heron-house",
+      "type": "Private Luxurious House",
+      "location": "Centre of Puerto Villamil, directly on the beach",
+      "proximity": ["Restaurants", "Bars", "Grocery stores"],
+      "capacity": {
+        "bedrooms": 3,
+        "bathrooms": 3
+      },
+      "features": [
+        "Fully furnished",
+        "Big patio on the beach",
+        "High-speed Starlink internet (complimentary)"
+      ],
+      "ideal_for": ["Groups", "Families", "Luxury seekers"],
+      "images": {
+        "cover": "/images/villas/yellow-heron-house/hero.jpg",
+        "living_room": "/images/villas/yellow-heron-house/living-room.jpg",
+        "bedroom_ocean": "/images/villas/yellow-heron-house/bedroom-ocean-view.jpg",
+        "bedroom_twin": "/images/villas/yellow-heron-house/bedroom-twin.jpg",
+        "master_bedroom": "/images/villas/yellow-heron-house/master-bedroom.jpg",
+        "master_bathroom": "/images/villas/yellow-heron-house/master-bathroom.jpg"
+      }
+    },
+    {
+      "name": "Sandy Feet House",
+      "slug": "sandy-feet-house",
+      "type": "Family-Friendly House",
+      "location": "Directly on the beach",
+      "proximity": ["Cafés", "Restaurants", "Shops"],
+      "capacity": {
+        "bedrooms": 2,
+        "bathrooms": 2
+      },
+      "features": [
+        "Spacious",
+        "Patio with ocean view (waves touch the patio)",
+        "High-speed Starlink internet (complimentary)"
+      ],
+      "ideal_for": ["Families", "Couples", "Beach lovers"],
+      "images": {
+        "cover": "/images/villas/sandy-feet-house/hero.jpg",
+        "private_patio": "/images/villas/sandy-feet-house/private-patio.png",
+        "living_room": "/images/villas/sandy-feet-house/living-room-ocean.jpg",
+        "kitchen": "/images/villas/sandy-feet-house/kitchen.jpg",
+        "dining_area": "/images/villas/sandy-feet-house/dining-area.jpg",
+        "glasses": "/images/villas/sandy-feet-house/glasses.jpg"
+      }
+    },
+    {
+      "name": "Flip Flop House",
+      "slug": "flip-flop-house",
+      "type": "Two-Story Family House",
+      "location": "Centre of Puerto Villamil",
+      "capacity": {
+        "bedrooms": 2,
+        "bathrooms": 3
+      },
+      "features": [
+        "Spacious living room",
+        "Big kitchen",
+        "Patio",
+        "High-speed Starlink internet (complimentary)"
+      ],
+      "ideal_for": ["Large families", "Groups", "Long stays"],
+      "images": {
+        "cover": "/images/villas/flip-flop-house/hero.jpg",
+        "living_room": "/images/villas/flip-flop-house/living-room.png",
+        "master_bedroom": "/images/villas/flip-flop-house/master-bedroom.jpg",
+        "second_bedroom": "/images/villas/flip-flop-house/second-bedroom.jpg",
+        "dining_area": "/images/villas/flip-flop-house/dining-area.jpg",
+        "tv_room": "/images/villas/flip-flop-house/tv-room.jpg"
+      }
+    }
+  ],
+
+  "activities": [
+    {
+      "name": "Las Tintoreras",
+      "slug": "las-tintoreras",
+      "description": "Walk alongside white-tipped sharks resting in shallow lava channels and spot the iconic blue-footed boobies on the rocks.",
+      "image": "/images/exp-wildlife.jpg",
+      "distance": "10 min walk"
+    },
+    {
+      "name": "Turtle Island",
+      "slug": "turtle-island",
+      "description": "Dive or snorkel with hammerhead sharks and sea turtles in the pristine waters surrounding Isabela.",
+      "image": "/images/parallax.jpg",
+      "distance": "30 min by boat"
+    },
+    {
+      "name": "Sierra Negra Volcano",
+      "slug": "sierra-negra",
+      "description": "Hike to the rim of one of the world's largest active volcanic calderas. A dramatic landscape of black lava and mist.",
+      "distance": "1.5h by truck + hike"
+    },
+    {
+      "name": "Breeding Centre",
+      "slug": "breeding-centre",
+      "description": "Walk among Galápagos giant tortoises at the breeding and rehabilitation centre in Puerto Villamil.",
+      "distance": "5 min walk"
+    },
+    {
+      "name": "Concha de Perla",
+      "slug": "concha-de-perla",
+      "description": "Snorkel in a natural lagoon sheltered by mangroves. Sea lions, marine iguanas, and tropical fish.",
+      "distance": "15 min walk"
+    },
+    {
+      "name": "Los Tuneles",
+      "slug": "los-tuneles",
+      "description": "Explore lava tube arches rising from the sea. One of Isabela's most iconic natural wonders.",
+      "distance": "45 min by boat"
+    },
+    {
+      "name": "Wall of Tears",
+      "slug": "wall-of-tears",
+      "description": "Historic volcanic stone wall built by prisoners in the 1940s. A scenic hike through dry forest.",
+      "distance": "20 min by bike"
+    },
+    {
+      "name": "Wetland Complex",
+      "slug": "wetland-complex",
+      "description": "Flamingo lagoons, mangrove forests and shorebirds. A peaceful boardwalk through Isabela's wetlands.",
+      "distance": "10 min walk"
+    }
+  ],
+
+  "booking_system": {
+    "platform": "Lodgify",
+    "process": [
+      "Select villa and dates",
+      "Online payment",
+      "Instant confirmation"
+    ],
+    "booking_button": true
+  },
+
+  "getting_here": {
+    "from_mainland": "Fly to Baltra (GPS) or San Cristóbal (SCY) via Quito or Guayaquil",
+    "to_isabela": "Ferry from Santa Cruz (Puerto Ayora) — approx. 2 hours",
+    "airport": "Isabela Airport (GPS) — 10 min from Puerto Villamil",
+    "note": "Galapagos National Park entrance fee required (~$200 USD per person)"
+  }
+}

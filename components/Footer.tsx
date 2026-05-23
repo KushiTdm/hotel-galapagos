@@ -72,10 +72,70 @@ export default function Footer() {
   return (
     <footer className="bg-cream-dark border-t border-neutral-200">
       {/* Main footer */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-24">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-24">
+        {/* Mobile layout */}
+        <div className="md:hidden flex flex-col gap-6">
+          {/* Brand row */}
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/"
+                className="font-serif text-xl tracking-[0.3em] uppercase text-ink"
+              >
+                Galápagos
+                <span className="block text-[11px] tracking-[0.45em] font-sans font-light mt-[-2px]">
+                  HOTEL
+                </span>
+              </Link>
+              <a href="tel:+593993211049" className="text-xs text-neutral-600 font-sans">+593 993 211 049</a>
+              <a href="mailto:info@galapagos-hotel.com" className="text-xs text-neutral-600 font-sans">info@galapagos-hotel.com</a>
+            </div>
+            <div className="flex gap-2">
+              {SOCIAL_LINKS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  aria-label={s.label}
+                  title={s.title}
+                  className="w-8 h-8 rounded-full border border-bronze/50 flex items-center justify-center text-bronze hover:bg-bronze hover:text-white transition-all duration-300"
+                >
+                  {SOCIAL_ICONS[s.label]}
+                </a>
+              ))}
+            </div>
+          </div>
+          {/* Link columns 2x2 */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+            {Object.entries(FOOTER_LINKS).map(([title, links]) => (
+              <div key={title} className="flex flex-col gap-2">
+                <p className="text-[9px] tracking-[0.3em] uppercase text-bronze font-sans font-medium">
+                  {title}
+                </p>
+                <ul className="flex flex-col gap-1.5">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        {...(link.href.startsWith("https://wa.me") && {
+                          target: "_blank",
+                          rel: "noopener noreferrer",
+                        })}
+                        className="text-xs text-neutral-600 hover:text-ink font-sans transition-colors duration-200"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-1 lg:col-span-1 flex flex-col gap-4 md:gap-6">
+          <div className="col-span-1 lg:col-span-1 flex flex-col gap-6">
             <Link
               href="/"
               className="font-serif text-xl tracking-[0.3em] uppercase text-ink"
@@ -89,20 +149,13 @@ export default function Footer() {
               {tr.footer_desc}
             </p>
             <div className="flex flex-col gap-1">
-              <a
-                href="tel:+593993211049"
-                className="text-sm text-neutral-600 hover:text-ink font-sans transition-colors duration-200"
-              >
+              <a href="tel:+593993211049" className="text-sm text-neutral-600 hover:text-ink font-sans transition-colors duration-200">
                 +593 993 211 049
               </a>
-              <a
-                href="mailto:info@galapagos-hotel.com"
-                className="text-sm text-neutral-600 hover:text-ink font-sans transition-colors duration-200"
-              >
+              <a href="mailto:info@galapagos-hotel.com" className="text-sm text-neutral-600 hover:text-ink font-sans transition-colors duration-200">
                 info@galapagos-hotel.com
               </a>
             </div>
-            {/* Social icons */}
             <div className="flex gap-3">
               {SOCIAL_LINKS.map((s) => (
                 <a
@@ -117,7 +170,6 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
           {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([title, links]) => (
             <div key={title} className="flex flex-col gap-4">
@@ -147,7 +199,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-neutral-200">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-4 md:py-6 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
           <p className="text-[11px] tracking-[0.15em] text-neutral-400 font-sans">
             {tr.footer_copyright(new Date().getFullYear())}
           </p>

@@ -1,8 +1,6 @@
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
+import React, { useEffect, useRef, useState } from "react";
 
 type Review = {
   name: string;
@@ -23,54 +21,50 @@ function StarRow() {
   );
 }
 
-function ReviewCard({ r }: { r: Review }) {
-  return (
-    <div className="bg-white p-8 flex flex-col gap-4 h-full">
-      <StarRow />
-      <blockquote className="font-serif italic text-lg text-ink leading-[1.65] flex-1">
-        "{r.quote}"
-      </blockquote>
-      <div className="border-t border-neutral-100 pt-4">
-        <p className="font-sans text-sm font-medium text-ink">{r.name}</p>
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-[10px] tracking-[0.15em] uppercase text-bronze font-sans">{r.date}</span>
-          <span className="text-neutral-300 text-xs">·</span>
-          <span className="text-[10px] tracking-[0.15em] uppercase text-neutral-400 font-sans">{r.type}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function ReviewsCarousel({ reviews }: { reviews: Review[] }) {
-  if (reviews.length <= 3) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {reviews.map((r) => (
-          <ReviewCard key={r.name} r={r} />
-        ))}
-      </div>
-    );
-  }
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLUListElement>(null);
+  const [start, setStart] = useState(false);
+
+  useEffect(() => {
+    if (!containerRef.current || !scrollerRef.current) return;
+    const scrollerContent = Array.from(scrollerRef.current.children);
+    scrollerContent.forEach((item) => {
+      scrollerRef.current!.appendChild(item.cloneNode(true));
+    });
+    scrollerRef.current.style.animationDuration = "80s";
+    setStart(true);
+  }, []);
 
   return (
-    <Swiper
-      modules={[Autoplay]}
-      slidesPerView={1}
-      spaceBetween={24}
-      loop
-      autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
-      breakpoints={{
-        768: { slidesPerView: 2 },
-        1280: { slidesPerView: 3 },
-      }}
-      className="!pb-2"
+    <div
+      ref={containerRef}
+      className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
     >
-      {reviews.map((r) => (
-        <SwiperSlide key={r.name} className="h-auto self-stretch">
-          <ReviewCard r={r} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+      <ul
+        ref={scrollerRef}
+        className={`flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-2 ${start ? "animate-scroll" : ""} hover:[animation-play-state:paused]`}
+      >
+        {reviews.map((r, idx) => (
+          <li
+            key={idx}
+            className="w-[280px] md:w-[380px] shrink-0 bg-white p-5 md:p-7 flex flex-col gap-3"
+          >
+            <StarRow />
+            <blockquote className="font-serif italic text-base text-ink leading-[1.55] flex-1">
+              &ldquo;{r.quote}&rdquo;
+            </blockquote>
+            <div className="border-t border-neutral-100 pt-3">
+              <p className="font-sans text-sm font-medium text-ink">{r.name}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[10px] tracking-[0.15em] uppercase text-bronze font-sans">{r.date}</span>
+                <span className="text-neutral-300 text-xs">·</span>
+                <span className="text-[10px] tracking-[0.15em] uppercase text-neutral-400 font-sans">{r.type}</span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

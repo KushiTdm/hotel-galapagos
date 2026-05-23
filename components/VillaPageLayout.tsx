@@ -122,10 +122,10 @@ export default function VillaPageLayout({ data }: { data: VillaPageData }) {
           <p className="text-white/60 text-[11px] tracking-[0.35em] uppercase font-sans mb-2">
             {villa.type}
           </p>
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl italic text-white leading-[1.05] mb-2">
+          <h1 className="font-serif text-3xl md:text-6xl lg:text-7xl italic text-white leading-[1.05] mb-2">
             {villa.name}
           </h1>
-          <p className="font-serif italic text-lg md:text-xl text-white/75">
+          <p className="font-serif italic text-base md:text-xl text-white/75">
             {villa.tagline}
           </p>
         </div>
@@ -164,11 +164,11 @@ export default function VillaPageLayout({ data }: { data: VillaPageData }) {
                     <span key={i}>{line}{i < titleLines.length - 1 && <br />}</span>
                   ))}
                 </h2>
-                <p className="text-sm leading-[1.9] text-neutral-600 font-sans">
+                <p className="text-sm leading-[1.7] md:leading-[1.9] text-neutral-600 font-sans">
                   {aboutText1}
                 </p>
                 {aboutText2 && (
-                  <p className="text-sm leading-[1.9] text-neutral-600 font-sans mt-3">
+                  <p className="text-sm leading-[1.7] md:leading-[1.9] text-neutral-600 font-sans mt-3">
                     {aboutText2}
                   </p>
                 )}
@@ -211,17 +211,23 @@ export default function VillaPageLayout({ data }: { data: VillaPageData }) {
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-[1200ms] ease-out"
                   />
                 </div>
-                {villa.gallery.slice(1).map((img) => (
-                  <div key={img.src} className="overflow-hidden aspect-square">
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      width={450}
-                      height={450}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-[1200ms] ease-out"
-                    />
-                  </div>
-                ))}
+                {villa.gallery.slice(1).map((img, i, arr) => {
+                  const isLastOdd = i === arr.length - 1 && arr.length % 2 !== 0;
+                  return (
+                    <div
+                      key={img.src}
+                      className={`overflow-hidden ${isLastOdd ? "col-span-2 aspect-[16/9] md:col-span-1 md:aspect-square" : "aspect-square"}`}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        width={450}
+                        height={450}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-[1200ms] ease-out"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -234,10 +240,39 @@ export default function VillaPageLayout({ data }: { data: VillaPageData }) {
           <p className="text-[10px] tracking-[0.35em] uppercase text-bronze font-sans mb-1">
             {lang === "es" ? "Qué incluye" : "What's Included"}
           </p>
-          <h2 className="font-serif text-2xl md:text-3xl italic text-ink mb-8">
+          <h2 className="font-serif text-2xl md:text-3xl italic text-ink mb-6 md:mb-8">
             {lang === "es" ? "Equipamiento" : "Amenities"}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          {/* Mobile: accordion */}
+          <div className="md:hidden divide-y divide-neutral-200 border-t border-neutral-200">
+            {amenities.map((group) => (
+              <details key={group.category} className="group">
+                <summary className="flex items-center justify-between py-3.5 cursor-pointer list-none select-none">
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-bronze font-sans">
+                    {group.category}
+                  </span>
+                  <svg
+                    className="w-4 h-4 text-bronze transition-transform duration-200 group-open:rotate-180"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <ul className="flex flex-col gap-2 pb-4 pl-1">
+                  {group.items.map((item) => (
+                    <li key={item} className="text-xs font-sans text-neutral-600 flex items-start gap-2">
+                      <span className="text-bronze mt-[4px] shrink-0 text-[7px]">■</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+
+          {/* Desktop: grid */}
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6">
             {amenities.map((group) => (
               <div key={group.category}>
                 <p className="text-[10px] tracking-[0.3em] uppercase text-bronze font-sans mb-3">
@@ -268,30 +303,30 @@ export default function VillaPageLayout({ data }: { data: VillaPageData }) {
               <h2 className="font-serif text-2xl md:text-3xl italic text-ink mb-7">
                 {lang === "es" ? "Tarifas" : "Rates"}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border border-neutral-200 p-5 flex flex-col gap-2">
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-sans">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div className="border border-neutral-200 p-3.5 md:p-5 flex flex-col gap-1.5 md:gap-2">
+                  <p className="text-[9px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase text-neutral-400 font-sans">
                     {lang === "es" ? "Tarifa estándar" : "Standard Rate"}
                   </p>
-                  <p className="font-serif text-3xl text-ink">{villa.priceStandard}</p>
-                  <p className="text-[11px] text-neutral-500 font-sans">
+                  <p className="font-serif text-2xl md:text-3xl text-ink">{villa.priceStandard}</p>
+                  <p className="text-[10px] md:text-[11px] text-neutral-500 font-sans">
                     {lang === "es" ? "por noche" : "per night"}
                   </p>
                   {villa.additionalGuest && (
-                    <p className="text-xs text-neutral-400 font-sans mt-1">{villa.additionalGuest}</p>
+                    <p className="text-[10px] md:text-xs text-neutral-400 font-sans">{villa.additionalGuest}</p>
                   )}
                 </div>
-                <div className="border-2 border-bronze p-5 flex flex-col gap-2 bg-cream">
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-bronze font-sans">
+                <div className="border-2 border-bronze p-3.5 md:p-5 flex flex-col gap-1.5 md:gap-2 bg-cream">
+                  <p className="text-[9px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase text-bronze font-sans">
                     {lang === "es" ? "Navidad y Año Nuevo" : "Christmas & New Year"}
                   </p>
-                  <p className="font-serif text-3xl text-ink">{villa.priceChristmas}</p>
-                  <p className="text-[11px] text-neutral-500 font-sans">
+                  <p className="font-serif text-2xl md:text-3xl text-ink">{villa.priceChristmas}</p>
+                  <p className="text-[10px] md:text-[11px] text-neutral-500 font-sans">
                     {lang === "es" ? "por noche" : "per night"}
                   </p>
-                  <p className="text-[10px] text-neutral-400 font-sans mt-1">{villa.christmasPeriod}</p>
+                  <p className="text-[9px] md:text-[10px] text-neutral-400 font-sans">{villa.christmasPeriod}</p>
                   {villa.additionalGuest && (
-                    <p className="text-xs text-neutral-400 font-sans">{villa.additionalGuest}</p>
+                    <p className="text-[10px] md:text-xs text-neutral-400 font-sans">{villa.additionalGuest}</p>
                   )}
                 </div>
               </div>

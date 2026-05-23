@@ -6,35 +6,40 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SectionHeading from "./SectionHeading";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EXPERIENCES = [
-  {
-    eyebrow: "The Galápagos",
-    title: "EXPERIENCE",
-    subtitle: "A living laboratory of extraordinary nature",
-    body: "The Galápagos Islands are unlike anywhere else on Earth. Swim alongside marine iguanas, watch giant tortoises roam free, and walk on beaches shared with sea lions. Every day on Isabela Island is an invitation to witness evolution in motion.",
-    image: "/images/exp-wildlife.jpg",
-    imageAlt: "Blue-footed booby on lava rocks at Las Tintoreras, Galápagos",
-    imageLeft: true,
-    cta: { label: "Discover Isabela", href: "#location" },
-  },
-  {
-    eyebrow: "Direct Beach Access",
-    title: "THE SHORES",
-    subtitle: "Where the Pacific meets pristine white sand",
-    body: "Yellow Heron House and Sandy Feet House sit directly on the beach of Puerto Villamil, one of the most beautiful beaches in the archipelago. Wake up to the sound of the ocean and step onto the sand without leaving the comfort of your villa.",
-    image: "/images/exp-beach-villa.jpg",
-    imageAlt: "Ocean-view master bedroom at Sandy Feet House, direct beach access",
-    imageLeft: false,
-    cta: { label: "Our Beachfront Villas", href: "#villas" },
-  },
-];
-
 export default function ExperienceSplit() {
+  const { lang } = useLanguage();
+  const tr = T[lang];
+
+  const EXPERIENCES = [
+    {
+      eyebrow: tr.exp1_eyebrow,
+      title: tr.exp1_title,
+      subtitle: tr.exp1_subtitle,
+      body: tr.exp1_body,
+      image: "/images/exp-wildlife.jpg",
+      imageAlt: "Blue-footed booby on lava rocks at Las Tintoreras, Galápagos",
+      imageLeft: true,
+      cta: { label: tr.exp1_cta, href: "#location" },
+    },
+    {
+      eyebrow: tr.exp2_eyebrow,
+      title: tr.exp2_title,
+      subtitle: tr.exp2_subtitle,
+      body: tr.exp2_body,
+      image: "/images/exp-beach-villa.jpg",
+      imageAlt: "Ocean-view master bedroom at Sandy Feet House, direct beach access",
+      imageLeft: false,
+      cta: { label: tr.exp2_cta, href: "#villas" },
+    },
+  ];
+
   return (
-    <section id="experience" className="py-24 md:py-32">
+    <section id="experience" className="py-12 md:py-32">
       {EXPERIENCES.map((exp, i) => (
         <ExperienceItem key={i} {...exp} />
       ))}
@@ -51,7 +56,16 @@ function ExperienceItem({
   imageAlt,
   imageLeft,
   cta,
-}: (typeof EXPERIENCES)[0]) {
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  imageLeft: boolean;
+  cta: { label: string; href: string };
+}) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -91,7 +105,7 @@ function ExperienceItem({
   return (
     <div
       ref={sectionRef}
-      className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 mb-24 md:mb-32"
+      className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 mb-10 md:mb-32"
     >
       <div
         className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center ${
@@ -99,7 +113,7 @@ function ExperienceItem({
         }`}
       >
         {/* Image */}
-        <div className="lg:col-span-7 overflow-hidden aspect-[3/2] lg:aspect-auto lg:h-[560px] lg:[direction:ltr]">
+        <div className="lg:col-span-7 overflow-hidden aspect-video lg:aspect-auto lg:h-[560px] lg:[direction:ltr]">
           <div ref={imageRef} className="relative w-full h-full will-change-transform">
             <Image
               src={image}

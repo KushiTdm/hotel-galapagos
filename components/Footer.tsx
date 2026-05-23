@@ -1,5 +1,9 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
   Instagram: (
@@ -21,29 +25,6 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
-const FOOTER_LINKS = {
-  "Our Villas": [
-    { label: "Yellow Heron House", href: "#villas" },
-    { label: "Sandy Feet House", href: "#villas" },
-    { label: "Flip Flop House", href: "#villas" },
-  ],
-  "Explore": [
-    { label: "Experience", href: "#experience" },
-    { label: "Amenities", href: "#amenities" },
-    { label: "Location", href: "#location" },
-  ],
-  "Stay With Us": [
-    { label: "Reserve a Villa", href: "#book" },
-    { label: "Contact Owners", href: "mailto:info@galapagos-hotel.com" },
-    { label: "Airbnb Listings", href: "#" },
-  ],
-  "Information": [
-    { label: "Getting to Isabela", href: "#location" },
-    { label: "Galapagos Wildlife", href: "#experience" },
-    { label: "Puerto Villamil", href: "#location" },
-  ],
-};
-
 const SOCIAL_LINKS = [
   { label: "Instagram", href: "#", title: "Instagram (coming soon)" },
   {
@@ -58,14 +39,43 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const WA_NUMBER = "593993211049";
+
 export default function Footer() {
+  const { lang, setLang } = useLanguage();
+  const tr = T[lang];
+  const waReserveUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(tr.whatsapp_general_msg)}`;
+
+  const FOOTER_LINKS = {
+    [tr.footer_col_villas]: [
+      { label: "Yellow Heron House", href: "#villas" },
+      { label: "Sandy Feet House", href: "#villas" },
+      { label: "Flip Flop House", href: "#villas" },
+    ],
+    [tr.footer_col_explore]: [
+      { label: tr.footer_experience, href: "#experience" },
+      { label: tr.footer_amenities, href: "#amenities" },
+      { label: tr.footer_location, href: "#location" },
+    ],
+    [tr.footer_col_stay]: [
+      { label: tr.footer_reserve, href: waReserveUrl },
+      { label: tr.footer_contact_owners, href: "mailto:info@galapagos-hotel.com" },
+      { label: tr.footer_airbnb, href: "#" },
+    ],
+    [tr.footer_col_info]: [
+      { label: tr.footer_getting_here, href: "#location" },
+      { label: tr.footer_wildlife, href: "#experience" },
+      { label: tr.footer_puerto, href: "#location" },
+    ],
+  };
+
   return (
     <footer className="bg-cream-dark border-t border-neutral-200">
       {/* Main footer */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-24">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
           {/* Brand column */}
-          <div className="lg:col-span-1 flex flex-col gap-6">
+          <div className="col-span-2 md:col-span-1 lg:col-span-1 flex flex-col gap-4 md:gap-6">
             <Link
               href="/"
               className="font-serif text-xl tracking-[0.3em] uppercase text-ink"
@@ -76,8 +86,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm leading-[1.8] text-neutral-600 font-sans max-w-xs">
-              Three stunning vacation houses in Puerto Villamil, Isabela —
-              designed for comfort, nature, and luxury.
+              {tr.footer_desc}
             </p>
             <div className="flex flex-col gap-1">
               <a
@@ -120,6 +129,10 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
+                      {...(link.href.startsWith("https://wa.me") && {
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                      })}
                       className="text-sm text-neutral-600 hover:text-ink font-sans transition-colors duration-200"
                     >
                       {link.label}
@@ -136,25 +149,36 @@ export default function Footer() {
       <div className="border-t border-neutral-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-[11px] tracking-[0.15em] text-neutral-400 font-sans">
-            © {new Date().getFullYear()} Galápagos Hotel · Esteban &amp; Elena Chavez ·
-            Puerto Villamil, Ecuador
+            {tr.footer_copyright(new Date().getFullYear())}
           </p>
           <div className="flex items-center gap-6">
             <a
               href="#"
               className="text-[11px] tracking-[0.15em] uppercase text-neutral-400 hover:text-bronze font-sans transition-colors duration-200"
             >
-              Privacy
+              {tr.footer_privacy}
             </a>
             <a
               href="#"
               className="text-[11px] tracking-[0.15em] uppercase text-neutral-400 hover:text-bronze font-sans transition-colors duration-200"
             >
-              Terms
+              {tr.footer_terms}
             </a>
-            <span className="text-[11px] tracking-[0.15em] uppercase text-neutral-400 font-sans">
-              EN
-            </span>
+            <div className="flex items-center gap-2 text-[11px] tracking-[0.15em] font-sans">
+              <button
+                onClick={() => setLang("en")}
+                className={`uppercase transition-colors duration-200 ${lang === "en" ? "text-bronze" : "text-neutral-400 hover:text-bronze"}`}
+              >
+                EN
+              </button>
+              <span className="text-neutral-300">|</span>
+              <button
+                onClick={() => setLang("es")}
+                className={`uppercase transition-colors duration-200 ${lang === "es" ? "text-bronze" : "text-neutral-400 hover:text-bronze"}`}
+              >
+                ES
+              </button>
+            </div>
           </div>
         </div>
       </div>

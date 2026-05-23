@@ -2,24 +2,33 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
 
-const NAV_LINKS = [
-  { label: "Villas", href: "#villas" },
-  { label: "Experience", href: "#experience" },
-  { label: "Amenities", href: "#amenities" },
-  { label: "Location", href: "#location" },
-];
+const WA_NUMBER = "593993211049";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const { lang, setLang } = useLanguage();
+  const tr = T[lang];
+  const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(tr.whatsapp_general_msg)}`;
+
+  const NAV_LINKS = [
+    { label: tr.nav_villas, href: "#villas" },
+    { label: tr.nav_experience, href: "#experience" },
+    { label: tr.nav_amenities, href: "#amenities" },
+    { label: tr.nav_location, href: "#location" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const colorClass = scrolled ? "text-ink" : "text-white";
 
   return (
     <>
@@ -36,9 +45,7 @@ export default function Header() {
           <button
             onClick={() => setMenuOpen(true)}
             aria-label="Open menu"
-            className={`flex flex-col gap-[5px] group transition-colors duration-300 ${
-              scrolled ? "text-ink" : "text-white"
-            }`}
+            className={`flex flex-col gap-[5px] group transition-colors duration-300 ${colorClass}`}
           >
             <span className="block w-6 h-px bg-current transition-transform duration-300" />
             <span className="block w-4 h-px bg-current group-hover:w-6 transition-all duration-300" />
@@ -48,9 +55,7 @@ export default function Header() {
           {/* Wordmark */}
           <Link
             href="/"
-            className={`font-serif text-base md:text-lg tracking-[0.35em] uppercase transition-colors duration-300 ${
-              scrolled ? "text-ink" : "text-white"
-            }`}
+            className={`font-serif text-base md:text-lg tracking-[0.35em] uppercase transition-colors duration-300 ${colorClass}`}
           >
             Galápagos
             <span className="block text-center text-[10px] tracking-[0.45em] mt-[-2px] font-sans font-light">
@@ -60,21 +65,40 @@ export default function Header() {
 
           {/* Right actions */}
           <div
-            className={`flex items-center gap-6 text-[11px] tracking-[0.2em] uppercase font-sans font-light transition-colors duration-300 ${
-              scrolled ? "text-ink" : "text-white"
-            }`}
+            className={`flex items-center gap-4 text-[11px] tracking-[0.2em] uppercase font-sans font-light transition-colors duration-300 ${colorClass}`}
           >
-            <span className="hidden md:block opacity-50 cursor-default select-none">EN</span>
-            <span className="hidden md:block opacity-30">|</span>
+            {/* Language toggle */}
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                onClick={() => setLang("en")}
+                className={`transition-opacity duration-300 ${
+                  lang === "en" ? "opacity-100" : "opacity-40 hover:opacity-70"
+                }`}
+              >
+                EN
+              </button>
+              <span className="opacity-30">|</span>
+              <button
+                onClick={() => setLang("es")}
+                className={`transition-opacity duration-300 ${
+                  lang === "es" ? "opacity-100" : "opacity-40 hover:opacity-70"
+                }`}
+              >
+                ES
+              </button>
+            </div>
+
             <a
-              href="#book"
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`px-6 py-3 text-[11px] tracking-[0.25em] uppercase transition-all duration-500 ${
                 scrolled
                   ? "bg-bronze text-white hover:bg-bronze-dark"
                   : "border border-white/70 text-white hover:bg-white hover:text-ink"
               }`}
             >
-              Reserve
+              {tr.reserve}
             </a>
           </div>
         </div>
@@ -91,13 +115,35 @@ export default function Header() {
             >
               Galápagos
             </Link>
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="text-white/70 hover:text-white transition-colors"
-              aria-label="Close menu"
-            >
-              <span className="text-2xl font-light">✕</span>
-            </button>
+            <div className="flex items-center gap-4">
+              {/* Language toggle in mobile menu */}
+              <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] font-sans font-light">
+                <button
+                  onClick={() => setLang("en")}
+                  className={`transition-opacity duration-300 uppercase ${
+                    lang === "en" ? "text-white" : "text-white/40 hover:text-white/70"
+                  }`}
+                >
+                  EN
+                </button>
+                <span className="text-white/30">|</span>
+                <button
+                  onClick={() => setLang("es")}
+                  className={`transition-opacity duration-300 uppercase ${
+                    lang === "es" ? "text-white" : "text-white/40 hover:text-white/70"
+                  }`}
+                >
+                  ES
+                </button>
+              </div>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="Close menu"
+              >
+                <span className="text-2xl font-light">✕</span>
+              </button>
+            </div>
           </div>
           <nav className="flex-1 flex flex-col justify-center px-6 md:px-12 lg:px-20 gap-8">
             {NAV_LINKS.map((link) => (

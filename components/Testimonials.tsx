@@ -2,6 +2,8 @@
 
 import SectionHeading from "./SectionHeading";
 import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
 
 const TESTIMONIALS = [
   {
@@ -37,17 +39,20 @@ const TESTIMONIALS = [
 ];
 
 export default function Testimonials() {
+  const { lang } = useLanguage();
+  const tr = T[lang];
+
   return (
-    <section className="py-24 md:py-32 bg-cream-dark overflow-hidden">
+    <section className="py-12 md:py-32 bg-cream-dark overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <SectionHeading
-          eyebrow="Our Guests"
-          title="THEIR WORDS"
-          subtitle="Experiences from those who called our villas home"
+          eyebrow={tr.testimonials_eyebrow}
+          title={tr.testimonials_title}
+          subtitle={tr.testimonials_subtitle}
         />
       </div>
 
-      <div className="mt-16 flex flex-col antialiased items-center justify-center relative">
+      <div className="mt-8 md:mt-16 flex flex-col antialiased items-center justify-center relative">
         <InfiniteMovingCards
           items={TESTIMONIALS}
           direction="left"

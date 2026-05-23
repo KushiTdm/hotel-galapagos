@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
+
+const WA_NUMBER = "593993211049";
 
 export default function HeroSection() {
   const imageRef = useRef<HTMLDivElement>(null);
@@ -14,16 +18,16 @@ export default function HeroSection() {
   const guestsRef = useRef<HTMLSelectElement>(null);
   const villaRef = useRef<HTMLSelectElement>(null);
 
+  const { lang } = useLanguage();
+  const tr = T[lang];
+
   const handleReserve = () => {
-    const checkin = checkinRef.current?.value || "";
-    const checkout = checkoutRef.current?.value || "";
-    const guests = guestsRef.current?.value || "2 Guests";
-    const villa = villaRef.current?.value || "Any Villa";
-    const subject = encodeURIComponent(`Reservation Request — ${villa}`);
-    const body = encodeURIComponent(
-      `Hello Esteban & Elena,\n\nI would like to inquire about a reservation:\n\nVilla: ${villa}\nCheck-in: ${checkin}\nCheck-out: ${checkout}\nGuests: ${guests}\n\nPlease confirm availability and pricing.\n\nThank you!`
-    );
-    window.location.href = `mailto:info@galapagos-hotel.com?subject=${subject}&body=${body}`;
+    const checkin = checkinRef.current?.value || "—";
+    const checkout = checkoutRef.current?.value || "—";
+    const guests = guestsRef.current?.value || tr.hero_guest_options[0];
+    const villa = villaRef.current?.value || tr.hero_any_villa;
+    const msg = tr.hero_whatsapp_msg(villa, checkin, checkout, guests);
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   useEffect(() => {
@@ -70,28 +74,28 @@ export default function HeroSection() {
       {/* Hero text */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 mt-20">
         <p className="text-white/70 text-xs tracking-[0.35em] uppercase font-sans font-light mb-6">
-          Puerto Villamil · Isabela · Galápagos
+          {tr.hero_location}
         </p>
         <h1
           ref={titleRef}
           className="font-serif text-5xl md:text-7xl lg:text-8xl italic text-white leading-[1.05] [clip-path:inset(0_0_0_0)]"
         >
-          Where the Ocean
+          {tr.hero_h1_line1}
           <br />
-          <em className="not-italic font-normal">Meets Paradise</em>
+          <em className="not-italic font-normal">{tr.hero_h1_line2}</em>
         </h1>
         <p
           ref={subtitleRef}
           className="font-serif italic text-xl md:text-2xl text-white/80 mt-6 max-w-lg"
         >
-          Three exclusive villas on the shores of the Galápagos
+          {tr.hero_subtitle}
         </p>
 
         <a
           href="#villas"
           className="mt-10 border border-white/70 text-white text-[11px] tracking-[0.3em] uppercase px-10 py-4 font-sans hover:bg-white hover:text-ink transition-all duration-500"
         >
-          Discover Our Villas
+          {tr.hero_discover}
         </a>
       </div>
 
@@ -101,10 +105,10 @@ export default function HeroSection() {
         id="book"
         className="relative z-10 bg-white/95 backdrop-blur mx-4 md:mx-12 lg:mx-20 mb-0 shadow-lg"
       >
-        <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-6 flex flex-col md:flex-row items-center gap-4 md:gap-0 divide-y md:divide-y-0 md:divide-x divide-neutral-200">
-          <div className="flex-1 px-4 md:px-8 w-full">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-2 md:flex md:flex-row md:items-center">
+          <div className="flex-1 px-4 md:px-8 py-4 md:py-6 border-b border-r border-neutral-200 md:border-b-0 md:border-r-0">
             <label className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 font-sans block mb-1">
-              Check-in
+              {tr.hero_checkin}
             </label>
             <input
               ref={checkinRef}
@@ -112,9 +116,9 @@ export default function HeroSection() {
               className="w-full text-ink text-sm font-sans outline-none bg-transparent border-b border-neutral-200 pb-1 cursor-pointer"
             />
           </div>
-          <div className="flex-1 px-4 md:px-8 w-full">
+          <div className="flex-1 px-4 md:px-8 py-4 md:py-6 border-b border-neutral-200 md:border-b-0 md:border-l">
             <label className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 font-sans block mb-1">
-              Check-out
+              {tr.hero_checkout}
             </label>
             <input
               ref={checkoutRef}
@@ -122,34 +126,33 @@ export default function HeroSection() {
               className="w-full text-ink text-sm font-sans outline-none bg-transparent border-b border-neutral-200 pb-1 cursor-pointer"
             />
           </div>
-          <div className="flex-1 px-4 md:px-8 w-full">
+          <div className="flex-1 px-4 md:px-8 py-4 md:py-6 border-r border-neutral-200 md:border-r-0 md:border-l">
             <label className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 font-sans block mb-1">
-              Guests
+              {tr.hero_guests}
             </label>
             <select ref={guestsRef} className="w-full text-ink text-sm font-sans outline-none bg-transparent border-b border-neutral-200 pb-1 cursor-pointer">
-              <option>2 Guests</option>
-              <option>3 Guests</option>
-              <option>4 Guests</option>
-              <option>5+ Guests</option>
+              {tr.hero_guest_options.map((opt) => (
+                <option key={opt}>{opt}</option>
+              ))}
             </select>
           </div>
-          <div className="flex-1 px-4 md:px-8 w-full">
+          <div className="flex-1 px-4 md:px-8 py-4 md:py-6 md:border-l border-neutral-200">
             <label className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 font-sans block mb-1">
-              Villa
+              {tr.hero_villa}
             </label>
             <select ref={villaRef} className="w-full text-ink text-sm font-sans outline-none bg-transparent border-b border-neutral-200 pb-1 cursor-pointer">
-              <option>Any Villa</option>
+              <option>{tr.hero_any_villa}</option>
               <option>Yellow Heron House</option>
               <option>Sandy Feet House</option>
               <option>Flip Flop House</option>
             </select>
           </div>
-          <div className="px-4 md:px-8 w-full md:w-auto">
+          <div className="col-span-2 md:col-span-1 px-4 md:px-8 py-3 md:py-6 border-t border-neutral-200 md:border-t-0 md:border-l">
             <button
               onClick={handleReserve}
               className="w-full md:w-auto bg-bronze hover:bg-bronze-dark text-white text-[11px] tracking-[0.3em] uppercase px-10 py-4 transition-colors duration-500 font-sans whitespace-nowrap"
             >
-              Reserve
+              {tr.hero_reserve_btn}
             </button>
           </div>
         </div>

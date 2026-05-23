@@ -5,6 +5,8 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +14,8 @@ export default function GalapagosParallax() {
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const { lang } = useLanguage();
+  const tr = T[lang];
 
   useGSAP(
     () => {
@@ -72,21 +76,21 @@ export default function GalapagosParallax() {
       {/* Content */}
       <div ref={textRef} className="relative z-10 text-center px-6 max-w-3xl">
         <p className="reveal-line text-[11px] tracking-[0.35em] uppercase text-white/60 font-sans mb-6">
-          Galápagos Time
+          {tr.parallax_eyebrow}
         </p>
-        <h2 className="reveal-line font-serif text-4xl md:text-6xl lg:text-7xl italic text-white leading-[1.1] mb-8">
-          Time moves differently
+        <h2 className="reveal-line font-serif text-3xl md:text-6xl lg:text-7xl italic text-white leading-[1.1] mb-5 md:mb-8">
+          {tr.parallax_h2_line1}
           <br />
-          <em className="not-italic font-light">here</em>
+          <em className="not-italic font-light">{tr.parallax_h2_line2}</em>
         </h2>
-        <p className="reveal-line font-serif italic text-xl md:text-2xl text-white/75 max-w-xl mx-auto mb-10">
-          Where giant tortoises set the pace and the only agenda is the tide
+        <p className="reveal-line font-serif italic text-base md:text-2xl text-white/75 max-w-xl mx-auto mb-6 md:mb-10">
+          {tr.parallax_subtitle}
         </p>
         <a
           href="#location"
           className="reveal-line inline-block border border-white/60 text-white text-[11px] tracking-[0.3em] uppercase px-10 py-4 font-sans hover:bg-white hover:text-ink transition-all duration-500"
         >
-          Plan Your Visit
+          {tr.parallax_cta}
         </a>
       </div>
     </section>

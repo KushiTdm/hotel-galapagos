@@ -8,6 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import FullBleedCTA from "@/components/FullBleedCTA";
 import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <FullBleedCTA />
       <LocationMap />
       <Footer />
+      <WhatsAppButton />
     </main>
   );
 }

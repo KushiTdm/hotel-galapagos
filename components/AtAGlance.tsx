@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SectionHeading from "./SectionHeading";
+import { useLanguage } from "@/lib/LanguageContext";
+import { T } from "@/lib/translations";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,47 +55,19 @@ const AMENITY_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
-const AMENITIES = [
-  {
-    iconKey: "wave",
-    title: "Beachfront Access",
-    description:
-      "Two of our three villas sit directly on Puerto Villamil's pristine beach — step outside and your toes are in the sand.",
-  },
-  {
-    iconKey: "wifi",
-    title: "Starlink Internet",
-    description:
-      "Complimentary high-speed satellite internet in all villas, so you stay connected while the world feels far away.",
-  },
-  {
-    iconKey: "leaf",
-    title: "Wildlife at Your Door",
-    description:
-      "Marine iguanas, sea lions, and giant tortoises are your neighbors. The Galápagos are yours to explore.",
-  },
-  {
-    iconKey: "home",
-    title: "Fully Furnished",
-    description:
-      "Each villa is thoughtfully furnished with everything you need for a comfortable, extended stay.",
-  },
-  {
-    iconKey: "fork",
-    title: "Local Dining",
-    description:
-      "Surrounded by restaurants, cafés, and bars. Puerto Villamil's best flavors are steps from your door.",
-  },
-  {
-    iconKey: "sun",
-    title: "Private Patios",
-    description:
-      "Generous outdoor terraces where the ocean breeze and the sound of waves become your constant companions.",
-  },
-];
-
 export default function AtAGlance() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { lang } = useLanguage();
+  const tr = T[lang];
+
+  const AMENITIES = [
+    { iconKey: "wave", title: tr.amenity_beach_title, description: tr.amenity_beach_desc },
+    { iconKey: "wifi", title: tr.amenity_wifi_title, description: tr.amenity_wifi_desc },
+    { iconKey: "leaf", title: tr.amenity_wildlife_title, description: tr.amenity_wildlife_desc },
+    { iconKey: "home", title: tr.amenity_home_title, description: tr.amenity_home_desc },
+    { iconKey: "fork", title: tr.amenity_dining_title, description: tr.amenity_dining_desc },
+    { iconKey: "sun", title: tr.amenity_patio_title, description: tr.amenity_patio_desc },
+  ];
 
   useGSAP(
     () => {
@@ -121,25 +95,25 @@ export default function AtAGlance() {
     <section
       ref={sectionRef}
       id="amenities"
-      className="py-24 md:py-32 bg-white"
+      className="py-12 md:py-32 bg-white"
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <SectionHeading
-          eyebrow="At a Glance"
-          title="ISLAND LIVING"
-          subtitle="Everything you need, and nothing you don't"
+          eyebrow={tr.glance_eyebrow}
+          title={tr.glance_title}
+          subtitle={tr.glance_subtitle}
         />
 
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
+        <div className="mt-8 md:mt-16 grid grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-12 gap-y-8 md:gap-y-12">
           {AMENITIES.map((item) => (
             <div
               key={item.title}
-              className="amenity-card group flex flex-col gap-4"
+              className="amenity-card group flex flex-col gap-2 md:gap-4"
             >
-              <span className="text-bronze">{AMENITY_ICONS[item.iconKey]}</span>
-              <div className="w-8 h-px bg-bronze group-hover:w-16 transition-all duration-500" />
-              <h3 className="font-serif text-xl text-ink">{item.title}</h3>
-              <p className="text-sm leading-[1.8] text-neutral-600 font-sans">
+              <span className="text-bronze [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-7 md:[&>svg]:h-7">{AMENITY_ICONS[item.iconKey]}</span>
+              <div className="w-6 md:w-8 h-px bg-bronze group-hover:w-12 md:group-hover:w-16 transition-all duration-500" />
+              <h3 className="font-serif text-base md:text-xl text-ink">{item.title}</h3>
+              <p className="text-xs md:text-sm leading-[1.7] text-neutral-600 font-sans">
                 {item.description}
               </p>
             </div>
